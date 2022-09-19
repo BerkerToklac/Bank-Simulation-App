@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.enums.AccountStatus;
 import com.example.enums.AccountType;
 import com.example.model.Account;
 import com.example.repository.AccountRepository;
@@ -18,9 +19,9 @@ public class AccountServiceImpl implements AccountService{
     @Autowired
     AccountRepository accountRepository;
     @Override
-    public Account createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType, Long userId) {
+    public Account createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType, Long userId, AccountStatus accountStatus) {
         Account account = Account.builder().id(UUID.randomUUID())
-                .userId(userId).accountType(accountType).balance(balance)
+                .userId(userId).accountType(accountType).balance(balance).accountStatus(accountStatus)
                 .creationDate(creationDate).build();
         return accountRepository.save(account);
     }

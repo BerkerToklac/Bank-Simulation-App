@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.enums.AccountStatus;
 import com.example.enums.AccountType;
 import com.example.exception.BalanceNotSufficientException;
 import com.example.model.Account;
@@ -18,15 +19,15 @@ public class BankSimulationAppApplication {
     public static void main(String[] args) throws BalanceNotSufficientException {
         ApplicationContext container = SpringApplication.run(BankSimulationAppApplication.class, args);
 
-        //Get Account and transaction service beans
+//Get Account and transaction service beans
         AccountService accountService = container.getBean(AccountService.class);
         TransactionService transactionService = container.getBean(TransactionService.class);
 
         //create 2 account sender and receiver.
-        Account sender = accountService.createNewAccount(BigDecimal.valueOf(70),new Date(), AccountType.CHECKING,1L);
+        Account sender = accountService.createNewAccount(BigDecimal.valueOf(7000),new Date(), AccountType.CHECKING,1L, AccountStatus.ACTIVE);
 
-        Account receiver = accountService.createNewAccount(BigDecimal.valueOf(50),new Date(),AccountType.CHECKING,2L);
-
+        Account receiver = accountService.createNewAccount(BigDecimal.valueOf(5000),new Date(),AccountType.CHECKING,2L,AccountStatus.ACTIVE);
+        /*
         accountService.listAllAccount().forEach(System.out::println);
 
         transactionService.makeTransfer(sender,receiver,BigDecimal.valueOf(40),new Date(),"Transaction 1");
@@ -34,6 +35,7 @@ public class BankSimulationAppApplication {
         System.out.println(transactionService.findAllTransactions().get(0));
 
         accountService.listAllAccount().forEach(System.out::println);
+         */
     }
 
 }

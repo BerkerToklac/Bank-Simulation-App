@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.enums.AccountStatus;
 import com.example.enums.AccountType;
 import com.example.model.Account;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 public interface AccountService {
 
-    Account createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType,Long userId);
+    Account createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType, Long userId, AccountStatus accountStatus);
 
     List<Account> listAllAccount();
 
