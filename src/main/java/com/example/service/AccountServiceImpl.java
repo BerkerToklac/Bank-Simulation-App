@@ -18,16 +18,26 @@ public class AccountServiceImpl implements AccountService{
 
     @Autowired
     AccountRepository accountRepository;
+
     @Override
-    public Account createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType, Long userId, AccountStatus accountStatus) {
-        Account account = Account.builder().id(UUID.randomUUID())
-                .userId(userId).accountType(accountType).balance(balance).accountStatus(accountStatus)
-                .creationDate(creationDate).build();
+    public Account createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType, Long userId) {
+        Account account = Account.builder().id(UUID.randomUUID()).balance(balance).creationDate(creationDate).accountType(accountType).userId(userId).accountStatus(AccountStatus.ACTIVE).build();
         return accountRepository.save(account);
     }
 
     @Override
     public List<Account> listAllAccount() {
         return accountRepository.findAll();
+    }
+
+    @Override
+    public void deleteAccount(UUID id) {
+        Account account = accountRepository.findById(id);
+        account.setAccountStatus(AccountStatus.DELETED);
+    }
+
+    @Override
+    public Account retrieveById(UUID sender) {
+        return accountRepository.findById(sender);
     }
 }
