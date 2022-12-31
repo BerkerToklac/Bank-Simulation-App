@@ -1,14 +1,15 @@
 package com.example.controller;
 
+import com.example.dto.AccountDTO;
 import com.example.enums.AccountType;
-import com.example.model.Account;
-import com.example.repository.AccountRepository;
 import com.example.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ public class AccountController {
     @GetMapping("/create-form")
     public String getCreateForm(Model model){
 
-        model.addAttribute("account", Account.builder().build());
+        model.addAttribute("accountDTO", new AccountDTO());
         model.addAttribute("accountTypes", AccountType.values());
         return "/account/create-account";
     }
@@ -44,13 +45,17 @@ public class AccountController {
 
      */
     @PostMapping("/create")
-    public String getCreateAccount(@ModelAttribute("account") Account account){
-        accountService.createNewAccount(account.getBalance(),new Date(),account.getAccountType(),account.getUserId());
+    public String getCreateAccount(@Valid @ModelAttribute("accountDTO") AccountDTO accountDTO, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()){
+            model.addAttribute("accountTypes",AccountType.values());
+            return "account/create-account";
+        }
+        accountService.createNewAccount(accountDTO);
 
         return "redirect:/index";
     }
     @GetMapping("/delete/{id}")
-    public String getDeleteAccount(@PathVariable("id")UUID id){
+    public String getDeleteAccount(@PathVariable("id") Long id){
         accountService.deleteAccount(id);
         return "redirect:/index";
     }

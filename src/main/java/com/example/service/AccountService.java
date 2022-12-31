@@ -1,8 +1,8 @@
 package com.example.service;
 
-import com.example.enums.AccountStatus;
+import com.example.dto.AccountDTO;
+import com.example.entity.Account;
 import com.example.enums.AccountType;
-import com.example.model.Account;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,11 +11,15 @@ import java.util.UUID;
 
 public interface AccountService {
 
-    Account createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType, Long userId);
+    void createNewAccount(AccountDTO accountDTO);
 
-    List<Account> listAllAccount();
+    List<AccountDTO> listAllAccount();
 
-    void deleteAccount(UUID id);
+    void deleteAccount(Long id);
 
-    Account retrieveById(UUID sender);
+    AccountDTO retrieveById(Long id);
+
+    List<AccountDTO> listAllActiveAccounts();
+
+    void updateAccount(AccountDTO accountDTO);
 }
